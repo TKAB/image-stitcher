@@ -4,13 +4,33 @@
 # Description: Takes two images, scans for an overlap and
 #               merges them above each other
 
+
 require 'rmagick'
 include Magick
 
-img_above = Image.read('example/above.png').first
-img_below = Image.read('example/below.png').first
 
-number_of_comparison_rows = 5
+if ARGV.length != 2
+  puts "Image Stitcher: did not supply two arguments, using example files."
+  puts "Provided args: #{ARGV.length}"
+  ARGV.each do |arg|
+    puts "ARGV: " + arg
+  end
+
+  img_above = Image.read('example/above.png').first
+  img_below = Image.read('example/below.png').first
+  working_dir = File.dirname('example/below.png')
+else
+  puts "1: " + ARGV[0]
+  puts "2: " + ARGV[1]
+
+  img_above = Image.read(ARGV[0]).first
+  img_below = Image.read(ARGV[1]).first
+  working_dir = File.dirname(ARGV[0])
+end
+
+output_filename = 'stitched_image.png'
+
+number_of_comparison_rows = 10
 image_width = img_below.columns
 first_row_of_img_below = img_below.crop(0, 0, image_width, number_of_comparison_rows)
 
@@ -45,6 +65,6 @@ stitched_image = Image.new(image_width, current_row_num + img_below.rows)
 stitched_image = stitched_image.composite(img_above, 0, 0, OverCompositeOp)
 .composite(img_below, 0, num_of_topmost_similar_row, OverCompositeOp)
 
-stitched_image.write('stitched_image.png')
+stitched_image.write(working_dir + '/' + output_filename)
 
 exit
