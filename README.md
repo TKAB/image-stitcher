@@ -12,7 +12,7 @@ scans for the overlap and merges the images so that one seamless image
 results.
 
 ### Platypus
-Two use the script on macOS by dragging two images onto it, use e.g. Platypus,
+To use the script on macOS by dragging two images onto it, use e.g. Platypus,
 a bash script is included in this rep.
 
 ## Dependencies
